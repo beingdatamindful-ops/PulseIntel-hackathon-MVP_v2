@@ -2,10 +2,12 @@ import { useState } from "react";
 import { supabase } from "../lib/supabase";
 
 const ACCENT = "#7c6ff7";
+const GRAD = "linear-gradient(135deg, #7c6ff7 0%, #a78bfa 50%, #14b8a6 100%)";
+const GRAD2 = "linear-gradient(135deg, #7c6ff7 0%, #6366f1 100%)";
 
 export default function Login({ onLogin, darkMode, toggleDark }) {
   const [tab, setTab] = useState("signin");
-  const [form, setForm] = useState("signin"); // signin | signup | forgot
+  const [form, setForm] = useState("signin");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -13,15 +15,16 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
   const [strength, setStrength] = useState(0);
 
   const s = {
-    bg: darkMode ? "#0a0a0f" : "#f5f4f1",
-    card: darkMode ? "#111118" : "#ffffff",
-    border: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-    text: darkMode ? "#e8e6f0" : "#1a1825",
-    muted: darkMode ? "#7a788a" : "#6b6880",
-    input: darkMode ? "#1a1a24" : "#f0eff9",
-    inputBorder: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
-    tabBg: darkMode ? "#1a1a24" : "#f0eff9",
-    hint: darkMode ? "#4a4860" : "#b0aec0",
+    bg: darkMode ? "#07070f" : "#f0eeff",
+    card: darkMode ? "#12121e" : "#ffffff",
+    border: darkMode ? "rgba(124,111,247,0.2)" : "rgba(124,111,247,0.15)",
+    text: darkMode ? "#f0eeff" : "#1a1825",
+    muted: darkMode ? "#c0bdd8" : "#5a5870",
+    input: darkMode ? "#1a1a2e" : "#f5f4ff",
+    inputBorder: darkMode ? "rgba(124,111,247,0.25)" : "rgba(124,111,247,0.2)",
+    tabBg: darkMode ? "#1a1a2e" : "#ede9ff",
+    hint: darkMode ? "#8a88a0" : "#9896a8",
+    glow: darkMode ? "0 0 80px rgba(124,111,247,0.15)" : "0 0 60px rgba(124,111,247,0.1)",
   };
 
   const [fields, setFields] = useState({
@@ -51,19 +54,15 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
     if (!fields.email || !fields.password) { setError("Please fill in all fields."); return; }
     setLoading(true); setError("");
     try {
-      // Try Supabase auth first
       const { data, error: authErr } = await supabase.auth.signInWithPassword({
-        email: fields.email,
-        password: fields.password,
+        email: fields.email, password: fields.password,
       });
       if (authErr) throw authErr;
       onLogin(data.user);
-    } catch (err) {
-      // Demo fallback — works without real Supabase credentials
+    } catch {
       if (fields.password.length >= 4) {
         const demoUser = {
-          id: "demo-user",
-          email: fields.email,
+          id: "demo-user", email: fields.email,
           user_metadata: { full_name: fields.email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) },
         };
         onLogin(demoUser);
@@ -80,21 +79,13 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
     setLoading(true); setError(""); setSuccess("");
     try {
       const { data, error: authErr } = await supabase.auth.signUp({
-        email: fields.email,
-        password: fields.password,
+        email: fields.email, password: fields.password,
         options: { data: { full_name: fields.name } },
       });
       if (authErr) throw authErr;
-      if (data.user) {
-        setSuccess("Account created! Check your email to confirm, or sign in now.");
-      }
-    } catch (err) {
-      // Demo fallback
-      const demoUser = {
-        id: "demo-user",
-        email: fields.email,
-        user_metadata: { full_name: fields.name },
-      };
+      if (data.user) setSuccess("Account created! Check your email to confirm.");
+    } catch {
+      const demoUser = { id: "demo-user", email: fields.email, user_metadata: { full_name: fields.name } };
       setSuccess("Account created! Signing you in...");
       setTimeout(() => onLogin(demoUser), 900);
     }
@@ -104,11 +95,7 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
   async function doForgot() {
     if (!fields.forgot) return;
     setLoading(true);
-    try {
-      await supabase.auth.resetPasswordForEmail(fields.forgot, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-    } catch (_) {}
+    try { await supabase.auth.resetPasswordForEmail(fields.forgot); } catch (_) {}
     setSuccess("Reset link sent! Check your inbox.");
     setLoading(false);
   }
@@ -116,106 +103,155 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
   async function socialLogin(provider) {
     try {
       await supabase.auth.signInWithOAuth({ provider: provider.toLowerCase() });
-    } catch (_) {
-      // Demo fallback
-      const demoUser = { id: "demo-user", email: `user@${provider.toLowerCase()}.com`, user_metadata: { full_name: `${provider} User` } };
-      onLogin(demoUser);
+    } catch {
+      onLogin({ id: "demo-user", email: `user@${provider.toLowerCase()}.com`, user_metadata: { full_name: `${provider} User` } });
     }
   }
 
   const inputStyle = {
-    width: "100%", background: s.input, border: `1px solid ${s.inputBorder}`,
-    borderRadius: "9px", padding: "11px 14px", color: s.text, fontSize: "13px",
-    fontFamily: "inherit", outline: "none", marginBottom: "14px", boxSizing: "border-box",
+    width: "100%", background: s.input, border: `1.5px solid ${s.inputBorder}`,
+    borderRadius: "12px", padding: "15px 18px", color: s.text, fontSize: "16px",
+    fontFamily: "inherit", outline: "none", marginBottom: "18px", boxSizing: "border-box", lineHeight: "1.5",
   };
 
   const labelStyle = {
-    display: "block", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px",
-    textTransform: "uppercase", color: s.muted, marginBottom: "6px",
+    display: "block", fontSize: "13px", fontWeight: 700, letterSpacing: "0.6px",
+    textTransform: "uppercase", color: s.muted, marginBottom: "8px",
+  };
+
+  const btnStyle = {
+    width: "100%", background: GRAD2, color: "#fff", border: "none",
+    borderRadius: "12px", padding: "16px", fontSize: "17px", fontWeight: 700,
+    fontFamily: "inherit", cursor: loading ? "not-allowed" : "pointer",
+    opacity: loading ? 0.7 : 1, letterSpacing: "0.2px",
+    boxShadow: "0 4px 24px rgba(124,111,247,0.4)",
+    transition: "transform 0.15s, box-shadow 0.15s",
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: s.bg, display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100vh", background: s.bg, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+      <style>{`
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+        @keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        .login-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 32px rgba(124,111,247,0.5) !important; }
+        .social-btn:hover { border-color: #7c6ff7 !important; color: #7c6ff7 !important; }
+        input:focus { border-color: #7c6ff7 !important; box-shadow: 0 0 0 3px rgba(124,111,247,0.15) !important; }
+      `}</style>
+
+      {/* Background gradient orbs */}
+      <div style={{ position: "fixed", top: "-20%", left: "-10%", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,111,247,0.12) 0%, transparent 70%)", pointerEvents: "none", animation: "float 8s ease-in-out infinite" }} />
+      <div style={{ position: "fixed", bottom: "-20%", right: "-10%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(20,184,166,0.1) 0%, transparent 70%)", pointerEvents: "none", animation: "float 10s ease-in-out infinite reverse" }} />
+
       {/* Nav */}
-      <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderBottom: `1px solid ${s.border}`, background: darkMode ? "#111118" : "#fff" }}>
-        <span style={{ fontSize: "1.2rem", fontWeight: 700, color: ACCENT }}>Pulse<span style={{ opacity: 0.6, color: darkMode ? "#e8e6f0" : "#1a1825" }}>Intel</span></span>
-        <button onClick={toggleDark} style={{ background: "transparent", border: `1px solid ${s.border}`, color: s.muted, padding: "5px 12px", borderRadius: "7px", cursor: "pointer", fontSize: "12px", fontFamily: "inherit" }}>◑ Toggle</button>
+      <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: `1px solid ${s.border}`, background: darkMode ? "rgba(12,12,20,0.8)" : "rgba(255,255,255,0.8)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 50 }}>
+        <span style={{ fontSize: "1.5rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.5px" }}>
+          PulseIntel
+        </span>
+        <button onClick={toggleDark} style={{ background: darkMode ? "rgba(124,111,247,0.15)" : "rgba(124,111,247,0.1)", border: `1.5px solid ${s.border}`, color: s.muted, padding: "8px 18px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit", fontWeight: 600 }}>
+          {darkMode ? "☀ Light" : "◑ Dark"}
+        </button>
       </nav>
 
       {/* Auth card */}
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-        <div style={{ background: s.card, border: `1px solid ${s.border}`, borderRadius: "20px", padding: "2.5rem 2rem", width: "100%", maxWidth: "420px", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: ACCENT }} />
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 20px" }}>
+        <div style={{ background: darkMode ? "rgba(18,18,30,0.9)" : "rgba(255,255,255,0.95)", border: `1.5px solid ${s.border}`, borderRadius: "24px", padding: "2.75rem 2.25rem", width: "100%", maxWidth: "480px", position: "relative", overflow: "hidden", backdropFilter: "blur(20px)", boxShadow: s.glow, animation: "fadein 0.5s ease" }}>
+
+          {/* Gradient top bar */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: GRAD }} />
+
+          {/* Subtle gradient background inside card */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: darkMode ? "radial-gradient(ellipse at top, rgba(124,111,247,0.06) 0%, transparent 60%)" : "radial-gradient(ellipse at top, rgba(124,111,247,0.04) 0%, transparent 60%)", pointerEvents: "none" }} />
 
           {/* Logo */}
-          <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
-            <div style={{ fontSize: "1.8rem", fontWeight: 700, color: ACCENT }}>Pulse<span style={{ color: s.text, opacity: 0.6 }}>Intel</span></div>
-            <p style={{ fontSize: "12px", color: s.muted, marginTop: "4px" }}>Competitive intelligence for modern teams</p>
+          <div style={{ textAlign: "center", marginBottom: "2rem", position: "relative" }}>
+            <div style={{ fontSize: "2.2rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-1px", lineHeight: 1 }}>
+              PulseIntel
+            </div>
+            <p style={{ fontSize: "16px", color: s.muted, marginTop: "8px", lineHeight: "1.5" }}>
+              Competitive intelligence for modern teams
+            </p>
           </div>
 
           {/* Tabs */}
           {form !== "forgot" && (
-            <div style={{ display: "flex", background: s.tabBg, borderRadius: "10px", padding: "3px", marginBottom: "1.75rem", gap: "3px" }}>
+            <div style={{ display: "flex", background: s.tabBg, borderRadius: "12px", padding: "4px", marginBottom: "2rem", gap: "4px", position: "relative" }}>
               {["signin", "signup"].map((t) => (
                 <button key={t} onClick={() => { setTab(t); setForm(t); setError(""); setSuccess(""); }}
-                  style={{ flex: 1, textAlign: "center", padding: "8px", borderRadius: "7px", fontSize: "13px", fontWeight: 600, cursor: "pointer", border: "none", fontFamily: "inherit", background: tab === t ? ACCENT : "transparent", color: tab === t ? "#fff" : s.muted, transition: "all 0.2s" }}>
+                  style={{ flex: 1, textAlign: "center", padding: "11px", borderRadius: "10px", fontSize: "16px", fontWeight: 700, cursor: "pointer", border: "none", fontFamily: "inherit", background: tab === t ? GRAD2 : "transparent", color: tab === t ? "#fff" : s.muted, transition: "all 0.2s", boxShadow: tab === t ? "0 2px 12px rgba(124,111,247,0.35)" : "none" }}>
                   {t === "signin" ? "Sign in" : "Create account"}
                 </button>
               ))}
             </div>
           )}
 
-          {error && <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", borderRadius: "8px", padding: "9px 12px", fontSize: "12px", color: "#ef4444", marginBottom: "14px" }}>{error}</div>}
-          {success && <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.25)", borderRadius: "8px", padding: "9px 12px", fontSize: "12px", color: "#10b981", marginBottom: "14px" }}>{success}</div>}
+          {error && (
+            <div style={{ background: "rgba(239,68,68,0.1)", border: "1.5px solid rgba(239,68,68,0.3)", borderRadius: "12px", padding: "14px 16px", fontSize: "15px", color: "#ef4444", marginBottom: "18px", lineHeight: "1.5" }}>
+              {error}
+            </div>
+          )}
+          {success && (
+            <div style={{ background: "rgba(16,185,129,0.1)", border: "1.5px solid rgba(16,185,129,0.3)", borderRadius: "12px", padding: "14px 16px", fontSize: "15px", color: "#10b981", marginBottom: "18px", lineHeight: "1.5" }}>
+              {success}
+            </div>
+          )}
 
           {/* SIGN IN */}
           {form === "signin" && (
-            <>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "16px" }}>
+            <div style={{ position: "relative" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
                 {["Google", "GitHub"].map((p) => (
-                  <button key={p} onClick={() => socialLogin(p)}
-                    style={{ background: s.input, border: `1px solid ${s.inputBorder}`, borderRadius: "9px", padding: "10px", fontSize: "12px", fontWeight: 600, color: s.muted, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px" }}>
+                  <button key={p} className="social-btn" onClick={() => socialLogin(p)}
+                    style={{ background: s.input, border: `1.5px solid ${s.inputBorder}`, borderRadius: "12px", padding: "13px", fontSize: "15px", fontWeight: 600, color: s.muted, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all 0.2s" }}>
                     {p === "Google" ? "🔵" : "⚫"} {p}
                   </button>
                 ))}
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "16px 0", color: s.hint, fontSize: "11px" }}>
-                <div style={{ flex: 1, height: "1px", background: s.border }} />or sign in with email<div style={{ flex: 1, height: "1px", background: s.border }} />
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "0 0 20px", color: s.hint, fontSize: "14px" }}>
+                <div style={{ flex: 1, height: "1px", background: s.border }} />
+                or sign in with email
+                <div style={{ flex: 1, height: "1px", background: s.border }} />
               </div>
               <label style={labelStyle}>Email address</label>
               <input style={inputStyle} type="email" value={fields.email} onChange={set("email")} placeholder="you@company.com" />
               <label style={labelStyle}>Password</label>
               <div style={{ position: "relative" }}>
-                <input style={{ ...inputStyle, paddingRight: "42px" }} type={showPass ? "text" : "password"} value={fields.password} onChange={set("password")} placeholder="Enter your password" />
-                <button onClick={() => setShowPass(!showPass)} style={{ position: "absolute", right: "12px", top: "11px", background: "none", border: "none", cursor: "pointer", fontSize: "16px" }}>{showPass ? "🙈" : "👁"}</button>
+                <input style={{ ...inputStyle, paddingRight: "52px" }} type={showPass ? "text" : "password"} value={fields.password} onChange={set("password")} placeholder="Enter your password" />
+                <button onClick={() => setShowPass(!showPass)} style={{ position: "absolute", right: "16px", top: "15px", background: "none", border: "none", cursor: "pointer", fontSize: "20px" }}>
+                  {showPass ? "🙈" : "👁"}
+                </button>
               </div>
-              <div style={{ textAlign: "right", marginTop: "-10px", marginBottom: "14px" }}>
-                <button onClick={() => { setForm("forgot"); setError(""); setSuccess(""); }} style={{ background: "none", border: "none", color: ACCENT, fontSize: "12px", cursor: "pointer", fontFamily: "inherit" }}>Forgot password?</button>
+              <div style={{ textAlign: "right", marginTop: "-10px", marginBottom: "22px" }}>
+                <button onClick={() => { setForm("forgot"); setError(""); setSuccess(""); }} style={{ background: "none", border: "none", color: ACCENT, fontSize: "15px", cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>
+                  Forgot password?
+                </button>
               </div>
-              <button onClick={doSignin} disabled={loading}
-                style={{ width: "100%", background: ACCENT, color: "#fff", border: "none", borderRadius: "9px", padding: "12px", fontSize: "14px", fontWeight: 700, fontFamily: "inherit", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.6 : 1 }}>
-                {loading ? "Signing in..." : "Sign in to PulseIntel"}
+              <button className="login-btn" onClick={doSignin} disabled={loading} style={btnStyle}>
+                {loading ? "Signing in..." : "Sign in to PulseIntel →"}
               </button>
-              <p style={{ textAlign: "center", fontSize: "12px", color: s.hint, marginTop: "16px" }}>
+              <p style={{ textAlign: "center", fontSize: "15px", color: s.hint, marginTop: "22px", lineHeight: "1.6" }}>
                 Don't have an account?{" "}
-                <button onClick={() => { setTab("signup"); setForm("signup"); }} style={{ background: "none", border: "none", color: ACCENT, fontSize: "12px", cursor: "pointer", fontFamily: "inherit" }}>Create one free</button>
+                <button onClick={() => { setTab("signup"); setForm("signup"); }} style={{ background: "none", border: "none", color: ACCENT, fontSize: "15px", cursor: "pointer", fontFamily: "inherit", fontWeight: 700 }}>
+                  Create one free
+                </button>
               </p>
-            </>
+            </div>
           )}
 
           {/* SIGN UP */}
           {form === "signup" && (
-            <>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "16px" }}>
+            <div style={{ position: "relative" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
                 {["Google", "GitHub"].map((p) => (
-                  <button key={p} onClick={() => socialLogin(p)}
-                    style={{ background: s.input, border: `1px solid ${s.inputBorder}`, borderRadius: "9px", padding: "10px", fontSize: "12px", fontWeight: 600, color: s.muted, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px" }}>
+                  <button key={p} className="social-btn" onClick={() => socialLogin(p)}
+                    style={{ background: s.input, border: `1.5px solid ${s.inputBorder}`, borderRadius: "12px", padding: "13px", fontSize: "15px", fontWeight: 600, color: s.muted, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all 0.2s" }}>
                     {p === "Google" ? "🔵" : "⚫"} {p}
                   </button>
                 ))}
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "16px 0", color: s.hint, fontSize: "11px" }}>
-                <div style={{ flex: 1, height: "1px", background: s.border }} />or sign up with email<div style={{ flex: 1, height: "1px", background: s.border }} />
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "0 0 20px", color: s.hint, fontSize: "14px" }}>
+                <div style={{ flex: 1, height: "1px", background: s.border }} />
+                or sign up with email
+                <div style={{ flex: 1, height: "1px", background: s.border }} />
               </div>
               <label style={labelStyle}>Full name</label>
               <input style={inputStyle} type="text" value={fields.name} onChange={set("name")} placeholder="Alex Johnson" />
@@ -223,35 +259,41 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
               <input style={inputStyle} type="email" value={fields.email} onChange={set("email")} placeholder="alex@company.com" />
               <label style={labelStyle}>Password</label>
               <div style={{ position: "relative" }}>
-                <input style={{ ...inputStyle, paddingRight: "42px", marginBottom: "6px" }} type={showPass ? "text" : "password"} value={fields.password} onChange={set("password")} placeholder="Min. 8 characters" />
-                <button onClick={() => setShowPass(!showPass)} style={{ position: "absolute", right: "12px", top: "11px", background: "none", border: "none", cursor: "pointer", fontSize: "16px" }}>{showPass ? "🙈" : "👁"}</button>
+                <input style={{ ...inputStyle, paddingRight: "52px", marginBottom: "8px" }} type={showPass ? "text" : "password"} value={fields.password} onChange={set("password")} placeholder="Min. 8 characters" />
+                <button onClick={() => setShowPass(!showPass)} style={{ position: "absolute", right: "16px", top: "15px", background: "none", border: "none", cursor: "pointer", fontSize: "20px" }}>
+                  {showPass ? "🙈" : "👁"}
+                </button>
               </div>
-              <div style={{ height: "3px", borderRadius: "3px", background: "rgba(255,255,255,0.07)", overflow: "hidden", marginBottom: "14px" }}>
-                <div style={{ height: "100%", width: `${strPct}%`, background: strColor, borderRadius: "3px", transition: "all 0.3s" }} />
+              <div style={{ height: "5px", borderRadius: "5px", background: "rgba(255,255,255,0.07)", overflow: "hidden", marginBottom: "20px" }}>
+                <div style={{ height: "100%", width: `${strPct}%`, background: strColor, borderRadius: "5px", transition: "all 0.3s" }} />
               </div>
-              <button onClick={doSignup} disabled={loading}
-                style={{ width: "100%", background: ACCENT, color: "#fff", border: "none", borderRadius: "9px", padding: "12px", fontSize: "14px", fontWeight: 700, fontFamily: "inherit", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.6 : 1 }}>
-                {loading ? "Creating account..." : "Create free account"}
+              <button className="login-btn" onClick={doSignup} disabled={loading} style={btnStyle}>
+                {loading ? "Creating account..." : "Create free account →"}
               </button>
-              <p style={{ textAlign: "center", fontSize: "12px", color: s.hint, marginTop: "16px" }}>
+              <p style={{ textAlign: "center", fontSize: "15px", color: s.hint, marginTop: "22px", lineHeight: "1.6" }}>
                 Already have an account?{" "}
-                <button onClick={() => { setTab("signin"); setForm("signin"); }} style={{ background: "none", border: "none", color: ACCENT, fontSize: "12px", cursor: "pointer", fontFamily: "inherit" }}>Sign in</button>
+                <button onClick={() => { setTab("signin"); setForm("signin"); }} style={{ background: "none", border: "none", color: ACCENT, fontSize: "15px", cursor: "pointer", fontFamily: "inherit", fontWeight: 700 }}>
+                  Sign in
+                </button>
               </p>
-            </>
+            </div>
           )}
 
-          {/* FORGOT PASSWORD */}
+          {/* FORGOT */}
           {form === "forgot" && (
-            <>
-              <button onClick={() => setForm("signin")} style={{ background: "none", border: "none", color: ACCENT, fontSize: "12px", cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", gap: "5px", marginBottom: "16px", padding: 0 }}>← Back to sign in</button>
-              <p style={{ fontSize: "13px", color: s.muted, marginBottom: "16px", lineHeight: "1.6" }}>Enter your email and we'll send you a reset link.</p>
+            <div style={{ position: "relative" }}>
+              <button onClick={() => setForm("signin")} style={{ background: "none", border: "none", color: ACCENT, fontSize: "15px", cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px", padding: 0, fontWeight: 700 }}>
+                ← Back to sign in
+              </button>
+              <p style={{ fontSize: "16px", color: s.muted, marginBottom: "22px", lineHeight: "1.7" }}>
+                Enter your email and we'll send you a reset link.
+              </p>
               <label style={labelStyle}>Email address</label>
               <input style={inputStyle} type="email" value={fields.forgot} onChange={(e) => setFields((p) => ({ ...p, forgot: e.target.value }))} placeholder="you@company.com" />
-              <button onClick={doForgot} disabled={loading}
-                style={{ width: "100%", background: ACCENT, color: "#fff", border: "none", borderRadius: "9px", padding: "12px", fontSize: "14px", fontWeight: 700, fontFamily: "inherit", cursor: "pointer" }}>
-                {loading ? "Sending..." : "Send reset link"}
+              <button className="login-btn" onClick={doForgot} disabled={loading} style={btnStyle}>
+                {loading ? "Sending..." : "Send reset link →"}
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>
