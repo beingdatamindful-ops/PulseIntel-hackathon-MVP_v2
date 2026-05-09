@@ -388,8 +388,50 @@ export default function Dashboard({ scanData, onNewScan, onLogout, currentUser, 
           <span style={{ fontSize: "1.5rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.5px" }}>PulseIntel</span>
           <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1px", color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "4px 12px", borderRadius: "20px", border: "1px solid rgba(16,185,129,0.3)" }}>LIVE</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+      <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 28px", borderBottom: `1px solid ${s.navBorder}`, background: "rgba(5,5,15,0.8)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 50 }}>
+  
+  {/* Left — Logo */}
+  <div style={{ display: "flex", alignItems: "center", gap: "14px", flexShrink: 0 }}>
+    <span style={{ fontSize: "1.5rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.5px" }}>PulseIntel</span>
+    <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1px", color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "4px 12px", borderRadius: "20px", border: "1px solid rgba(16,185,129,0.3)" }}>LIVE</span>
+  </div>
+
+  {/* Centre — URL comparison */}
+  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+      <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "#10b981" }}>Your Company</span>
+      <span style={{ fontSize: "17px", fontWeight: 700, color: "#a78bfa", background: "rgba(167,139,250,0.1)", border: "1.5px solid rgba(167,139,250,0.35)", borderRadius: "10px", padding: "8px 20px", fontFamily: "monospace", maxWidth: "260px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" }}>{clientDomain}</span>
+    </div>
+
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+      <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1px", color: "transparent" }}>vs</span>
+      <span style={{ fontSize: "20px", fontWeight: 900, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>VS</span>
+    </div>
+
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+      <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: DANGER }}>Competitor</span>
+      <span style={{ fontSize: "17px", fontWeight: 700, color: DANGER, background: "rgba(239,68,68,0.1)", border: "1.5px solid rgba(239,68,68,0.35)", borderRadius: "10px", padding: "8px 20px", fontFamily: "monospace", maxWidth: "260px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" }}>{compDomain}</span>
+    </div>
+  </div>
+
+  {/* Right — buttons */}
+  <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+    <button onClick={onNewScan} style={{ background: "transparent", border: `1.5px solid ${ACCENT}`, color: ACCENT, padding: "8px 18px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit", fontWeight: 700 }}>← New scan</button>
+    <button onClick={toggleDark} style={{ background: "rgba(124,111,247,0.15)", border: `1.5px solid ${s.navBorder}`, color: s.muted, padding: "8px 14px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit" }}>◑</button>
+    <div style={{ position: "relative" }}>
+      <div onClick={() => setUserMenuOpen(!userMenuOpen)} style={{ width: "38px", height: "38px", borderRadius: "50%", background: GRAD2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 800, color: "#fff", cursor: "pointer", boxShadow: "0 2px 12px rgba(124,111,247,0.4)" }}>{initials}</div>
+      {userMenuOpen && (
+        <div style={{ position: "absolute", right: 0, top: "46px", background: s.card, border: `1.5px solid ${s.border}`, borderRadius: "14px", padding: "8px", minWidth: "210px", zIndex: 200, backdropFilter: "blur(12px)" }}>
+          <div style={{ padding: "12px 14px 14px", borderBottom: `1px solid ${s.border}`, marginBottom: "6px" }}>
+            <div style={{ fontSize: "16px", fontWeight: 700, color: s.text }}>{name}</div>
+            <div style={{ fontSize: "13px", color: s.muted, marginTop: "3px" }}>{currentUser?.email}</div>
+          </div>
+          <button onClick={onLogout} style={{ width: "100%", padding: "11px 14px", borderRadius: "10px", border: "none", background: "transparent", fontSize: "15px", color: DANGER, cursor: "pointer", fontFamily: "inherit", textAlign: "left", fontWeight: 600 }}>Sign out</button>
+        </div>
+      )}
+    </div>
+  </div>
+</nav>
   <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.8px", textTransform: "uppercase", color: "#10b981", marginBottom: "3px" }}>Your Company</span>
   <span style={{ fontSize: "16px", fontWeight: 700, color: "#a78bfa", background: s.card2, border: `1.5px solid rgba(124,111,247,0.3)`, borderRadius: "10px", padding: "7px 16px", fontFamily: "monospace", maxWidth: "220px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{clientDomain}</span>
 </div>
