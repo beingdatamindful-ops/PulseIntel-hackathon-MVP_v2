@@ -129,7 +129,86 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: s.bg, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+   <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+  <style>{`
+    @keyframes bgShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes orb1 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      33%      { transform: translate(60px, -80px) scale(1.15); }
+      66%      { transform: translate(-40px, 40px) scale(0.9); }
+    }
+    @keyframes orb2 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      33%      { transform: translate(-70px, 60px) scale(1.1); }
+      66%      { transform: translate(50px, -50px) scale(0.95); }
+    }
+    @keyframes orb3 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      50%      { transform: translate(40px, 70px) scale(1.2); }
+    }
+  `}</style>
+
+  {/* Animated gradient background */}
+  <div style={{
+    position: "fixed", inset: 0, zIndex: 0,
+    background: darkMode
+      ? "linear-gradient(135deg, #07070f, #0d0b1e, #070f14, #0a0a0f, #0d0b1e)"
+      : "linear-gradient(135deg, #f0eeff, #e8f4ff, #f5eeff, #eefaf8, #f0eeff)",
+    backgroundSize: "400% 400%",
+    animation: "bgShift 12s ease infinite",
+  }} />
+
+  {/* Orb 1 — purple */}
+  <div style={{
+    position: "fixed", top: "10%", left: "5%", width: "500px", height: "500px", zIndex: 0,
+    borderRadius: "50%",
+    background: darkMode
+      ? "radial-gradient(circle, rgba(124,111,247,0.18) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(124,111,247,0.12) 0%, transparent 70%)",
+    animation: "orb1 14s ease-in-out infinite",
+    pointerEvents: "none",
+    filter: "blur(40px)",
+  }} />
+
+  {/* Orb 2 — teal */}
+  <div style={{
+    position: "fixed", bottom: "5%", right: "5%", width: "450px", height: "450px", zIndex: 0,
+    borderRadius: "50%",
+    background: darkMode
+      ? "radial-gradient(circle, rgba(20,184,166,0.15) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(20,184,166,0.1) 0%, transparent 70%)",
+    animation: "orb2 18s ease-in-out infinite",
+    pointerEvents: "none",
+    filter: "blur(40px)",
+  }} />
+
+  {/* Orb 3 — indigo */}
+  <div style={{
+    position: "fixed", top: "40%", right: "20%", width: "350px", height: "350px", zIndex: 0,
+    borderRadius: "50%",
+    background: darkMode
+      ? "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
+    animation: "orb3 20s ease-in-out infinite",
+    pointerEvents: "none",
+    filter: "blur(50px)",
+  }} />
+
+  {/* Orb 4 — violet bottom left */}
+  <div style={{
+    position: "fixed", bottom: "20%", left: "15%", width: "300px", height: "300px", zIndex: 0,
+    borderRadius: "50%",
+    background: darkMode
+      ? "radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%)",
+    animation: "orb1 22s ease-in-out infinite reverse",
+    pointerEvents: "none",
+    filter: "blur(35px)",
+  }} />
       <style>{`
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
         @keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
