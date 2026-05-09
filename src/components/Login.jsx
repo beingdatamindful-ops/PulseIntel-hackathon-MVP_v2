@@ -15,7 +15,7 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
   const [strength, setStrength] = useState(0);
 
   const s = {
-    bg: darkMode ? "#07070f" : "#f0eeff",
+    bg: darkMode ? "#05050f" : "#f0eeff",
     card: darkMode ? "#12121e" : "#ffffff",
     border: darkMode ? "rgba(124,111,247,0.2)" : "rgba(124,111,247,0.15)",
     text: darkMode ? "#f0eeff" : "#1a1825",
@@ -24,7 +24,7 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
     inputBorder: darkMode ? "rgba(124,111,247,0.25)" : "rgba(124,111,247,0.2)",
     tabBg: darkMode ? "#1a1a2e" : "#ede9ff",
     hint: darkMode ? "#8a88a0" : "#9896a8",
-    glow: darkMode ? "0 0 80px rgba(124,111,247,0.15)" : "0 0 60px rgba(124,111,247,0.1)",
+    glow: darkMode ? "0 0 120px rgba(124,111,247,0.25)" : "0 0 60px rgba(124,111,247,0.1)",
   };
 
   const [fields, setFields] = useState({
@@ -129,169 +129,150 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
   };
 
   return (
-   <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
-  <style>{`
-    @keyframes bgShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    @keyframes orb1 {
-      0%,100% { transform: translate(0px, 0px) scale(1); }
-      33%      { transform: translate(60px, -80px) scale(1.15); }
-      66%      { transform: translate(-40px, 40px) scale(0.9); }
-    }
-    @keyframes orb2 {
-      0%,100% { transform: translate(0px, 0px) scale(1); }
-      33%      { transform: translate(-70px, 60px) scale(1.1); }
-      66%      { transform: translate(50px, -50px) scale(0.95); }
-    }
-    @keyframes orb3 {
-      0%,100% { transform: translate(0px, 0px) scale(1); }
-      50%      { transform: translate(40px, 70px) scale(1.2); }
-    }
-  `}</style>
-
-  {/* Animated gradient background */}
-  <div style={{
-    position: "fixed", inset: 0, zIndex: 0,
-    background: darkMode
-      ? "linear-gradient(135deg, #07070f, #0d0b1e, #070f14, #0a0a0f, #0d0b1e)"
-      : "linear-gradient(135deg, #f0eeff, #e8f4ff, #f5eeff, #eefaf8, #f0eeff)",
-    backgroundSize: "400% 400%",
-    animation: "bgShift 12s ease infinite",
-  }} />
-
-  {/* Orb 1 — purple */}
-  <div style={{
-    position: "fixed", top: "10%", left: "5%", width: "500px", height: "500px", zIndex: 0,
-    borderRadius: "50%",
-    background: darkMode
-      ? "radial-gradient(circle, rgba(124,111,247,0.18) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(124,111,247,0.12) 0%, transparent 70%)",
-    animation: "orb1 14s ease-in-out infinite",
-    pointerEvents: "none",
-    filter: "blur(40px)",
-  }} />
-
-  {/* Orb 2 — teal */}
-  <div style={{
-    position: "fixed", bottom: "5%", right: "5%", width: "450px", height: "450px", zIndex: 0,
-    borderRadius: "50%",
-    background: darkMode
-      ? "radial-gradient(circle, rgba(20,184,166,0.15) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(20,184,166,0.1) 0%, transparent 70%)",
-    animation: "orb2 18s ease-in-out infinite",
-    pointerEvents: "none",
-    filter: "blur(40px)",
-  }} />
-
-  {/* Orb 3 — indigo */}
-  <div style={{
-    position: "fixed", top: "40%", right: "20%", width: "350px", height: "350px", zIndex: 0,
-    borderRadius: "50%",
-    background: darkMode
-      ? "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
-    animation: "orb3 20s ease-in-out infinite",
-    pointerEvents: "none",
-    filter: "blur(50px)",
-  }} />
-
-  {/* Orb 4 — violet bottom left */}
-  <div style={{
-    position: "fixed", bottom: "20%", left: "15%", width: "300px", height: "300px", zIndex: 0,
-    borderRadius: "50%",
-    background: darkMode
-      ? "radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%)",
-    animation: "orb1 22s ease-in-out infinite reverse",
-    pointerEvents: "none",
-    filter: "blur(35px)",
-  }} />
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
       <style>{`
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
-        @keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-        .login-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 32px rgba(124,111,247,0.5) !important; }
+        @keyframes orb1 {
+          0%,100% { transform: translate(0px, 0px) scale(1); }
+          33%      { transform: translate(80px, -100px) scale(1.2); }
+          66%      { transform: translate(-60px, 60px) scale(0.85); }
+        }
+        @keyframes orb2 {
+          0%,100% { transform: translate(0px, 0px) scale(1); }
+          33%      { transform: translate(-90px, 80px) scale(1.15); }
+          66%      { transform: translate(70px, -70px) scale(0.9); }
+        }
+        @keyframes orb3 {
+          0%,100% { transform: translate(0px, 0px) scale(1); }
+          50%      { transform: translate(60px, 90px) scale(1.25); }
+        }
+        @keyframes fadein {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideWords {
+          0%  { transform: translateY(0); }
+          20% { transform: translateY(0); }
+          25% { transform: translateY(-28px); }
+          45% { transform: translateY(-28px); }
+          50% { transform: translateY(-56px); }
+          70% { transform: translateY(-56px); }
+          75% { transform: translateY(-84px); }
+          95% { transform: translateY(-84px); }
+          100%{ transform: translateY(0); }
+        }
+        @keyframes gradShift {
+          0%,100% { background-position: 0% 50%; }
+          50%      { background-position: 100% 50%; }
+        }
+        .animated-tag {
+          background: linear-gradient(135deg, #7c6ff7, #a78bfa, #14b8a6, #ec4899, #7c6ff7);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradShift 4s ease infinite;
+          font-weight: 700;
+        }
+        .login-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 32px rgba(124,111,247,0.6) !important; }
         .social-btn:hover { border-color: #7c6ff7 !important; color: #7c6ff7 !important; }
         input:focus { border-color: #7c6ff7 !important; box-shadow: 0 0 0 3px rgba(124,111,247,0.15) !important; }
       `}</style>
 
-      {/* Background gradient orbs */}
-      <div style={{ position: "fixed", top: "-20%", left: "-10%", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,111,247,0.12) 0%, transparent 70%)", pointerEvents: "none", animation: "float 8s ease-in-out infinite" }} />
-      <div style={{ position: "fixed", bottom: "-20%", right: "-10%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(20,184,166,0.1) 0%, transparent 70%)", pointerEvents: "none", animation: "float 10s ease-in-out infinite reverse" }} />
+      {/* Pure black base */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "#05050f" }} />
+
+      {/* Orb 1 — massive aggressive purple */}
+      <div style={{
+        position: "fixed", top: "-5%", left: "-10%",
+        width: "700px", height: "700px", zIndex: 0, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(124,111,247,0.55) 0%, rgba(99,102,241,0.3) 40%, transparent 70%)",
+        animation: "orb1 10s ease-in-out infinite",
+        pointerEvents: "none", filter: "blur(60px)",
+      }} />
+
+      {/* Orb 2 — aggressive teal bottom right */}
+      <div style={{
+        position: "fixed", bottom: "-10%", right: "-5%",
+        width: "650px", height: "650px", zIndex: 0, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(6,182,212,0.3) 40%, transparent 70%)",
+        animation: "orb2 12s ease-in-out infinite",
+        pointerEvents: "none", filter: "blur(55px)",
+      }} />
+
+      {/* Orb 3 — hot violet center right */}
+      <div style={{
+        position: "fixed", top: "30%", right: "10%",
+        width: "500px", height: "500px", zIndex: 0, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(167,139,250,0.45) 0%, rgba(124,111,247,0.25) 40%, transparent 70%)",
+        animation: "orb3 14s ease-in-out infinite",
+        pointerEvents: "none", filter: "blur(50px)",
+      }} />
+
+      {/* Orb 4 — electric indigo bottom left */}
+      <div style={{
+        position: "fixed", bottom: "15%", left: "10%",
+        width: "450px", height: "450px", zIndex: 0, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(79,70,229,0.5) 0%, rgba(124,111,247,0.3) 40%, transparent 70%)",
+        animation: "orb1 16s ease-in-out infinite reverse",
+        pointerEvents: "none", filter: "blur(45px)",
+      }} />
+
+      {/* Orb 5 — pink flash top right */}
+      <div style={{
+        position: "fixed", top: "5%", right: "5%",
+        width: "400px", height: "400px", zIndex: 0, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(236,72,153,0.35) 0%, rgba(167,139,250,0.2) 40%, transparent 70%)",
+        animation: "orb2 11s ease-in-out infinite reverse",
+        pointerEvents: "none", filter: "blur(50px)",
+      }} />
 
       {/* Nav */}
-      <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: `1px solid ${s.border}`, background: darkMode ? "rgba(12,12,20,0.8)" : "rgba(255,255,255,0.8)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 50 }}>
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: `1px solid ${s.border}`, background: "rgba(5,5,15,0.7)", backdropFilter: "blur(16px)" }}>
         <span style={{ fontSize: "1.5rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.5px" }}>
           PulseIntel
         </span>
-        <button onClick={toggleDark} style={{ background: darkMode ? "rgba(124,111,247,0.15)" : "rgba(124,111,247,0.1)", border: `1.5px solid ${s.border}`, color: s.muted, padding: "8px 18px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit", fontWeight: 600 }}>
+        <button onClick={toggleDark} style={{ background: "rgba(124,111,247,0.15)", border: `1.5px solid ${s.border}`, color: s.muted, padding: "8px 18px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit", fontWeight: 600 }}>
           {darkMode ? "☀ Light" : "◑ Dark"}
         </button>
       </nav>
 
       {/* Auth card */}
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 20px" }}>
-        <div style={{ background: darkMode ? "rgba(18,18,30,0.9)" : "rgba(255,255,255,0.95)", border: `1.5px solid ${s.border}`, borderRadius: "24px", padding: "2.75rem 2.25rem", width: "100%", maxWidth: "480px", position: "relative", overflow: "hidden", backdropFilter: "blur(20px)", boxShadow: s.glow, animation: "fadein 0.5s ease" }}>
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 20px", position: "relative", zIndex: 1 }}>
+        <div style={{ background: darkMode ? "rgba(12,12,22,0.85)" : "rgba(255,255,255,0.95)", border: `1.5px solid ${s.border}`, borderRadius: "24px", padding: "2.75rem 2.25rem", width: "100%", maxWidth: "480px", position: "relative", overflow: "hidden", backdropFilter: "blur(24px)", boxShadow: s.glow, animation: "fadein 0.5s ease" }}>
 
           {/* Gradient top bar */}
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: GRAD }} />
 
-          {/* Subtle gradient background inside card */}
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: darkMode ? "radial-gradient(ellipse at top, rgba(124,111,247,0.06) 0%, transparent 60%)" : "radial-gradient(ellipse at top, rgba(124,111,247,0.04) 0%, transparent 60%)", pointerEvents: "none" }} />
+          {/* Inner glow */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "radial-gradient(ellipse at top, rgba(124,111,247,0.08) 0%, transparent 60%)", pointerEvents: "none" }} />
 
           {/* Logo */}
           <div style={{ textAlign: "center", marginBottom: "2rem", position: "relative" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-1px", lineHeight: 1 }}>
               PulseIntel
             </div>
+
+            {/* Animated ticker */}
             <div style={{ marginTop: "10px", height: "28px", overflow: "hidden" }}>
-  <style>{`
-    @keyframes slideWords {
-      0%  { transform: translateY(0); }
-      20% { transform: translateY(0); }
-      25% { transform: translateY(-28px); }
-      45% { transform: translateY(-28px); }
-      50% { transform: translateY(-56px); }
-      70% { transform: translateY(-56px); }
-      75% { transform: translateY(-84px); }
-      95% { transform: translateY(-84px); }
-      100%{ transform: translateY(0); }
-    }
-    @keyframes gradShift {
-      0%,100% { background-position: 0% 50%; }
-      50%      { background-position: 100% 50%; }
-    }
-    .animated-tag {
-      background: linear-gradient(135deg, #7c6ff7, #a78bfa, #14b8a6, #7c6ff7);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradShift 4s ease infinite;
-      font-weight: 700;
-    }
-  `}</style>
-  <div style={{ animation: "slideWords 8s ease-in-out infinite" }}>
-    {[
-      "Intelligent Web Scraper",
-      "Turns Competitor Data Into Strategy",
-      "Real-Time Competitor Monitoring",
-      "AI Strategy Engine",
-    ].map((word, i) => (
-      <div key={i} style={{ height: "28px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <span className="animated-tag" style={{ fontSize: "15px", letterSpacing: "0.3px" }}>
-          {word}
-        </span>
-      </div>
-    ))}
-  </div>
-</div>
+              <div style={{ animation: "slideWords 8s ease-in-out infinite" }}>
+                {[
+                  "Intelligent Web Scraper",
+                  "Turns Competitor Data Into Strategy",
+                  "Real-Time Competitor Monitoring",
+                  "AI Strategy Engine",
+                ].map((word, i) => (
+                  <div key={i} style={{ height: "28px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span className="animated-tag" style={{ fontSize: "15px", letterSpacing: "0.3px" }}>
+                      {word}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Tabs */}
           {form !== "forgot" && (
-            <div style={{ display: "flex", background: s.tabBg, borderRadius: "12px", padding: "4px", marginBottom: "2rem", gap: "4px", position: "relative" }}>
+            <div style={{ display: "flex", background: s.tabBg, borderRadius: "12px", padding: "4px", marginBottom: "2rem", gap: "4px" }}>
               {["signin", "signup"].map((t) => (
                 <button key={t} onClick={() => { setTab(t); setForm(t); setError(""); setSuccess(""); }}
                   style={{ flex: 1, textAlign: "center", padding: "11px", borderRadius: "10px", fontSize: "16px", fontWeight: 700, cursor: "pointer", border: "none", fontFamily: "inherit", background: tab === t ? GRAD2 : "transparent", color: tab === t ? "#fff" : s.muted, transition: "all 0.2s", boxShadow: tab === t ? "0 2px 12px rgba(124,111,247,0.35)" : "none" }}>
