@@ -296,14 +296,10 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
           {/* SIGN IN */}
           {form === "signin" && (
             <div style={{ position: "relative" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
-                {["Google", "GitHub"].map((p) => (
-                  <button key={p} className="social-btn" onClick={() => socialLogin(p)}
-                    style={{ background: s.input, border: `1.5px solid ${s.inputBorder}`, borderRadius: "12px", padding: "13px", fontSize: "15px", fontWeight: 600, color: s.muted, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all 0.2s" }}>
-                    {p === "Google" ? "🔵" : "⚫"} {p}
-                  </button>
-                ))}
-              </div>
+            <button className="social-btn" onClick={() => socialLogin("Google")}
+  style={{ width: "100%", background: s.input, border: `1.5px solid ${s.inputBorder}`, borderRadius: "12px", padding: "13px", fontSize: "15px", fontWeight: 600, color: s.muted, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all 0.2s", marginBottom: "20px" }}>
+  🔵 Continue with Google
+</button>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "0 0 20px", color: s.hint, fontSize: "14px" }}>
                 <div style={{ flex: 1, height: "1px", background: s.border }} />
                 or sign in with email
