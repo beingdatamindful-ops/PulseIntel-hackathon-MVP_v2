@@ -234,7 +234,7 @@ export default function Dashboard({ scanData, onNewScan, onLogout, currentUser, 
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: GRAD }} />
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: darkMode ? "radial-gradient(ellipse at top left, rgba(124,111,247,0.08) 0%, transparent 50%)" : "radial-gradient(ellipse at top left, rgba(124,111,247,0.04) 0%, transparent 50%)", pointerEvents: "none" }} />
           <div style={{ position: "relative" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "11px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", background: "rgba(124,111,247,0.12)", color: ACCENT, padding: "5px 14px", borderRadius: "20px", marginBottom: "16px", border: "1px solid rgba(124,111,247,0.25)" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "11px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", background: "rgba(124,111,247,0.12)", color: ACCENT, padding: "5px 14px", borderRadius: "20px", marginBottom: "16px", border: "1px solid rgba(124,111,247,0.25)" }}>
               ✦ AI Intelligence Brief
             </div>
             {aiBrief
