@@ -167,9 +167,47 @@ export default function Login({ onLogin, darkMode, toggleDark }) {
             <div style={{ fontSize: "2.2rem", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-1px", lineHeight: 1 }}>
               PulseIntel
             </div>
-            <p style={{ fontSize: "16px", color: s.muted, marginTop: "8px", lineHeight: "1.5" }}>
-              Competitive intelligence for modern teams
-            </p>
+            <div style={{ marginTop: "10px", height: "28px", overflow: "hidden" }}>
+  <style>{`
+    @keyframes slideWords {
+      0%  { transform: translateY(0); }
+      20% { transform: translateY(0); }
+      25% { transform: translateY(-28px); }
+      45% { transform: translateY(-28px); }
+      50% { transform: translateY(-56px); }
+      70% { transform: translateY(-56px); }
+      75% { transform: translateY(-84px); }
+      95% { transform: translateY(-84px); }
+      100%{ transform: translateY(0); }
+    }
+    @keyframes gradShift {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .animated-tag {
+      background: linear-gradient(135deg, #7c6ff7, #a78bfa, #14b8a6, #7c6ff7);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradShift 4s ease infinite;
+      font-weight: 700;
+    }
+  `}</style>
+  <div style={{ animation: "slideWords 8s ease-in-out infinite" }}>
+    {[
+      "Intelligent Web Scraper",
+      "Turns Competitor Data Into Strategy",
+      "Real-Time Competitor Monitoring",
+      "AI Strategy Engine",
+    ].map((word, i) => (
+      <div key={i} style={{ height: "28px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span className="animated-tag" style={{ fontSize: "15px", letterSpacing: "0.3px" }}>
+          {word}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
           </div>
 
           {/* Tabs */}
