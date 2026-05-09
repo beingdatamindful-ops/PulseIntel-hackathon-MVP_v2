@@ -362,7 +362,13 @@ export default function Dashboard({ scanData, onNewScan, onLogout, currentUser, 
   const oppGrads = { c1: GRAD2, c2: `linear-gradient(135deg, ${TEAL}, #0d9488)`, c3: `linear-gradient(135deg, ${WARN}, #d97706)` };
 
   return (
-    <div style={{ minHeight: "100vh", background: s.bg, position: "relative" }}>
+    <div style={{ minHeight: "100vh", position: "relative" }}>
+  <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "#05050f" }} />
+  <div style={{ position: "fixed", top: "-5%", left: "-10%", width: "700px", height: "700px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(124,111,247,0.55) 0%, rgba(99,102,241,0.3) 40%, transparent 70%)", animation: "orb1 10s ease-in-out infinite", pointerEvents: "none", filter: "blur(60px)" }} />
+  <div style={{ position: "fixed", bottom: "-10%", right: "-5%", width: "650px", height: "650px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(6,182,212,0.3) 40%, transparent 70%)", animation: "orb2 12s ease-in-out infinite", pointerEvents: "none", filter: "blur(55px)" }} />
+  <div style={{ position: "fixed", top: "30%", right: "10%", width: "500px", height: "500px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(167,139,250,0.45) 0%, rgba(124,111,247,0.25) 40%, transparent 70%)", animation: "orb3 14s ease-in-out infinite", pointerEvents: "none", filter: "blur(50px)" }} />
+  <div style={{ position: "fixed", bottom: "15%", left: "10%", width: "450px", height: "450px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(79,70,229,0.5) 0%, rgba(124,111,247,0.3) 40%, transparent 70%)", animation: "orb1 16s ease-in-out infinite reverse", pointerEvents: "none", filter: "blur(45px)" }} />
+  <div style={{ position: "fixed", top: "5%", right: "5%", width: "400px", height: "400px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(236,72,153,0.35) 0%, rgba(167,139,250,0.2) 40%, transparent 70%)", animation: "orb2 11s ease-in-out infinite reverse", pointerEvents: "none", filter: "blur(50px)" }} />
       <style>{`
         @keyframes dpulse{0%,80%,100%{opacity:0.2}40%{opacity:1}}
         @keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
