@@ -389,10 +389,19 @@ export default function Dashboard({ scanData, onNewScan, onLogout, currentUser, 
           <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1px", color: "#10b981", background: "rgba(16,185,129,0.12)", padding: "4px 12px", borderRadius: "20px", border: "1px solid rgba(16,185,129,0.3)" }}>LIVE</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ fontSize: "13px", color: s.muted, background: s.card2, border: `1px solid ${s.border}`, borderRadius: "8px", padding: "5px 12px", fontFamily: "monospace", maxWidth: "160px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{clientDomain}</span>
-          <span style={{ fontSize: "12px", fontWeight: 800, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>VS</span>
-          <span style={{ fontSize: "13px", color: DANGER, background: s.card2, border: `1px solid ${s.border}`, borderRadius: "8px", padding: "5px 12px", fontFamily: "monospace", maxWidth: "160px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{compDomain}</span>
-        </div>
+         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+  <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.8px", textTransform: "uppercase", color: "#10b981", marginBottom: "3px" }}>Your Company</span>
+  <span style={{ fontSize: "16px", fontWeight: 700, color: "#a78bfa", background: s.card2, border: `1.5px solid rgba(124,111,247,0.3)`, borderRadius: "10px", padding: "7px 16px", fontFamily: "monospace", maxWidth: "220px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{clientDomain}</span>
+</div>
+
+<div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+  <span style={{ fontSize: "16px", fontWeight: 900, background: GRAD, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>VS</span>
+</div>
+
+<div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+  <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.8px", textTransform: "uppercase", color: DANGER, marginBottom: "3px" }}>Competitor</span>
+  <span style={{ fontSize: "16px", fontWeight: 700, color: DANGER, background: s.card2, border: `1.5px solid rgba(239,68,68,0.3)`, borderRadius: "10px", padding: "7px 16px", fontFamily: "monospace", maxWidth: "220px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{compDomain}</span>
+</div>        </div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <button onClick={onNewScan} style={{ background: "transparent", border: `1.5px solid ${ACCENT}`, color: ACCENT, padding: "8px 18px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit", fontWeight: 700 }}>← New scan</button>
           <button onClick={toggleDark} style={{ background: darkMode ? "rgba(124,111,247,0.15)" : "rgba(124,111,247,0.1)", border: `1.5px solid ${s.navBorder}`, color: s.muted, padding: "8px 14px", borderRadius: "10px", cursor: "pointer", fontSize: "14px", fontFamily: "inherit" }}>◑</button>
