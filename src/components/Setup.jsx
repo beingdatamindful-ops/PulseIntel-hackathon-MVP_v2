@@ -44,7 +44,30 @@ export default function Setup({ onScan, onLogout, currentUser, darkMode, toggleD
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: s.bg, position: "relative", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+  <style>{`
+    @keyframes orb1 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      33%      { transform: translate(80px, -100px) scale(1.2); }
+      66%      { transform: translate(-60px, 60px) scale(0.85); }
+    }
+    @keyframes orb2 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      33%      { transform: translate(-90px, 80px) scale(1.15); }
+      66%      { transform: translate(70px, -70px) scale(0.9); }
+    }
+    @keyframes orb3 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      50%      { transform: translate(60px, 90px) scale(1.25); }
+    }
+  `}</style>
+
+  <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "#05050f" }} />
+  <div style={{ position: "fixed", top: "-5%", left: "-10%", width: "700px", height: "700px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(124,111,247,0.55) 0%, rgba(99,102,241,0.3) 40%, transparent 70%)", animation: "orb1 10s ease-in-out infinite", pointerEvents: "none", filter: "blur(60px)" }} />
+  <div style={{ position: "fixed", bottom: "-10%", right: "-5%", width: "650px", height: "650px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(6,182,212,0.3) 40%, transparent 70%)", animation: "orb2 12s ease-in-out infinite", pointerEvents: "none", filter: "blur(55px)" }} />
+  <div style={{ position: "fixed", top: "30%", right: "10%", width: "500px", height: "500px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(167,139,250,0.45) 0%, rgba(124,111,247,0.25) 40%, transparent 70%)", animation: "orb3 14s ease-in-out infinite", pointerEvents: "none", filter: "blur(50px)" }} />
+  <div style={{ position: "fixed", bottom: "15%", left: "10%", width: "450px", height: "450px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(79,70,229,0.5) 0%, rgba(124,111,247,0.3) 40%, transparent 70%)", animation: "orb1 16s ease-in-out infinite reverse", pointerEvents: "none", filter: "blur(45px)" }} />
+  <div style={{ position: "fixed", top: "5%", right: "5%", width: "400px", height: "400px", zIndex: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(236,72,153,0.35) 0%, rgba(167,139,250,0.2) 40%, transparent 70%)", animation: "orb2 11s ease-in-out infinite reverse", pointerEvents: "none", filter: "blur(50px)" }} />
       <style>{`
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
         @keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
